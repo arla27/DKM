@@ -175,11 +175,10 @@ button:disabled{
 
     </div>
 
-    <h1>VOTING KETUA DKM</h1>
+    <h1>EVOTING KETUA DKM</h1>
 
     <p>
-      PEMILIHAN KETUA DKM MUSHOLLA NURUL HUDA
-      PONDOK DEWATA TIGARAKSA
+      Pemilihan Calon Ketua DKM Musholla Pondok Dewata Tigaraksa
     </p>
 
   </div>
@@ -187,7 +186,7 @@ button:disabled{
   <div class="content">
 
     <div class="success" id="successBox">
-      VOTING BERHASIL DIKIRIM
+      Voting Berhasil Terkirim, Terimakasih atas partisipasinya...
     </div>
 
     <form id="voteForm">
@@ -195,13 +194,13 @@ button:disabled{
       <div class="form-group">
 
         <label class="title">
-          NAMA PEMILIH
+          Nama Pemilih
         </label>
 
         <input
           type="text"
           id="nama"
-          placeholder="MASUKKAN NAMA LENGKAP"
+          placeholder="Masukkan Nama Lengkap"
           required
         >
 
@@ -210,13 +209,13 @@ button:disabled{
       <div class="form-group">
 
         <label class="title">
-          TEMPAT / ALAMAT
+          Tempat / Alamat
         </label>
 
         <input
           type="text"
           id="tempat"
-          placeholder="MASUKKAN ALAMAT ATAU TEMPAT TINGGAL"
+          placeholder="Masukkan Tempat atau Alamat Tinggal"
           required
         >
 
@@ -225,26 +224,26 @@ button:disabled{
       <div class="form-group">
 
         <label class="title">
-          NAMA KANDIDAT KETUA DKM
+          Nama Kandidat Ketua DKM atau Ingin mengajukkan diri
         </label>
 
         <input
           type="text"
           id="ketua"
-          placeholder="MASUKKAN NAMA KANDIDAT"
+          placeholder="Masukkan Nama Kandidat atau Ingin mengajukkan diri"
           required
         >
 
       </div>
 
       <button type="submit" id="btnKirim">
-        KIRIM VOTING
+        Kirim Voting
       </button>
 
     </form>
 
     <div class="footer">
-      © 2026 DKM MUSHOLLA NURUL HUDA
+      © 2026 DKM Musholla Nurul Huda Pondok Dewata Tigaraksa
     </div>
 
   </div>
@@ -286,7 +285,7 @@ form.addEventListener("submit", async function(e){
 
   if(nama === ""){
 
-    alert("NAMA PEMILIH WAJIB DIISI");
+    alert("Nama Pemilih wajib diisi");
 
     return;
 
@@ -294,7 +293,7 @@ form.addEventListener("submit", async function(e){
 
   if(tempat === ""){
 
-    alert("TEMPAT / ALAMAT WAJIB DIISI");
+    alert("Tempat / Alamat wajib diisi");
 
     return;
 
@@ -302,7 +301,7 @@ form.addEventListener("submit", async function(e){
 
   if(ketua === ""){
 
-    alert("NAMA KANDIDAT WAJIB DIISI");
+    alert("Nama Kandidat wajib diisi");
 
     return;
 
@@ -310,7 +309,7 @@ form.addEventListener("submit", async function(e){
 
   btn.disabled = true;
 
-  btn.innerText = "MENGIRIM...";
+  btn.innerText = "Mengirim...";
 
   // =====================================
   // URL WEB APP GOOGLE APPS SCRIPT
