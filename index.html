@@ -69,6 +69,18 @@ body{
   padding:30px;
 }
 
+.info-box{
+  background:#f1f5f9;
+  border-left:5px solid #16a34a;
+  padding:18px;
+  border-radius:14px;
+  margin-bottom:25px;
+  color:#334155;
+  line-height:1.7;
+  font-size:14px;
+  text-align:justify;
+}
+
 .form-group{
   margin-bottom:22px;
 }
@@ -94,6 +106,29 @@ input[type="text"]:focus{
   border-color:#16a34a;
   outline:none;
   box-shadow:0 0 0 4px rgba(22,163,74,.15);
+}
+
+.radio-group{
+  display:flex;
+  gap:15px;
+  margin-top:10px;
+}
+
+.radio-item{
+  flex:1;
+  border:1px solid #cbd5e1;
+  border-radius:14px;
+  padding:14px;
+  cursor:pointer;
+  transition:.3s;
+}
+
+.radio-item:hover{
+  border-color:#16a34a;
+}
+
+.radio-item input{
+  margin-right:8px;
 }
 
 button{
@@ -136,6 +171,10 @@ button:disabled{
   margin-top:20px;
 }
 
+.hidden{
+  display:none;
+}
+
 @media(max-width:600px){
 
   .container{
@@ -152,6 +191,10 @@ button:disabled{
 
   .content{
     padding:20px;
+  }
+
+  .radio-group{
+    flex-direction:column;
   }
 
 }
@@ -184,6 +227,21 @@ button:disabled{
   </div>
 
   <div class="content">
+
+    <div class="info-box">
+      Assalamu’alaikum Warahmatullahi Wabarakatuh.<br><br>
+
+      Terkait pencalonan Ketua DKM Nurul Huda periode 2026–2029, pengurus DKM Nurul Huda secara aklamasi mencalonkan Bapak Riki Kurnia sebagai Ketua DKM Nurul Huda.<br><br>
+
+      Pemilihan ini hanya untuk menentukan Ketua DKM Nurul Huda. Selanjutnya, ketua terpilih akan membentuk jajaran kepengurusan.<br><br>
+
+      Apabila terdapat kandidat lain atau ada yang ingin mengajukan diri sebagai Ketua DKM, silakan memilih opsi “TIDAK” dan mengisi nama kandidat yang diajukan.<br><br>
+
+      Apabila terdapat kesalahan dalam penyampaian kata-kata, kami mohon maaf dan pengertiannya.<br><br>
+
+      Sekian, terima kasih atas perhatian dan partisipasinya.<br>
+      Wassalamu’alaikum Warahmatullahi Wabarakatuh.
+    </div>
 
     <div class="success" id="successBox">
       Voting Berhasil Terkirim, Terimakasih atas partisipasinya...
@@ -224,14 +282,47 @@ button:disabled{
       <div class="form-group">
 
         <label class="title">
-          Nama Kandidat Ketua DKM atau Ingin mengajukkan diri
+          Apakah Setuju Dengan Kandidat Yang Dicalonkan?
+        </label>
+
+        <div class="radio-group">
+
+          <label class="radio-item">
+            <input
+              type="radio"
+              name="pilihan"
+              value="SETUJU"
+              checked
+            >
+            SETUJU
+          </label>
+
+          <label class="radio-item">
+            <input
+              type="radio"
+              name="pilihan"
+              value="TIDAK SETUJU"
+            >
+            TIDAK
+          </label>
+
+        </div>
+
+      </div>
+
+      <div
+        class="form-group hidden"
+        id="kandidatBox"
+      >
+
+        <label class="title">
+          Nama Kandidat Ketua DKM / Mengajukan Diri
         </label>
 
         <input
           type="text"
           id="ketua"
-          placeholder="Nama Kandidat"
-          required
+          placeholder="Masukkan Nama Kandidat"
         >
 
       </div>
@@ -261,6 +352,49 @@ const btn =
 const successBox =
   document.getElementById("successBox");
 
+const kandidatBox =
+  document.getElementById("kandidatBox");
+
+const ketuaInput =
+  document.getElementById("ketua");
+
+const pilihanRadio =
+  document.querySelectorAll('input[name="pilihan"]');
+
+
+// ===========================
+// TAMPILKAN INPUT KANDIDAT
+// ===========================
+
+pilihanRadio.forEach(function(radio){
+
+  radio.addEventListener("change", function(){
+
+    if(this.value === "TIDAK SETUJU"){
+
+      kandidatBox.classList.remove("hidden");
+
+      ketuaInput.setAttribute("required", true);
+
+    }else{
+
+      kandidatBox.classList.add("hidden");
+
+      ketuaInput.removeAttribute("required");
+
+      ketuaInput.value = "";
+
+    }
+
+  });
+
+});
+
+
+// ===========================
+// SUBMIT FORM
+// ===========================
+
 form.addEventListener("submit", async function(e){
 
   e.preventDefault();
@@ -276,6 +410,10 @@ form.addEventListener("submit", async function(e){
     .value
     .trim()
     .toUpperCase();
+
+  const pilihan =
+    document.querySelector('input[name="pilihan"]:checked')
+    .value;
 
   const ketua =
     document.getElementById("ketua")
@@ -299,7 +437,11 @@ form.addEventListener("submit", async function(e){
 
   }
 
-  if(ketua === ""){
+  if(
+    pilihan === "TIDAK SETUJU"
+    &&
+    ketua === ""
+  ){
 
     alert("Nama Kandidat wajib diisi");
 
@@ -316,12 +458,13 @@ form.addEventListener("submit", async function(e){
   // =====================================
 
   const scriptURL =
-    "https://script.google.com/macros/s/AKfycbzPGsOAL6HOlEzwWHCsjVE3c80z6YDQPOWM9Wv8QJqqAU57bclV3ydEdkB6E5RI_EnY/exec";
+    "https://script.google.com/macros/s/AKfycbxzxd5FgBYRXQgtj5B0k55f6gEp8IhphuAx52ySLXCOIKSJiywIVoluERXuqfcVMuTe/exec";
 
   const data = {
 
     nama: nama,
     tempat: tempat,
+    pilihan: pilihan,
     ketua: ketua
 
   };
@@ -357,6 +500,8 @@ form.addEventListener("submit", async function(e){
       successBox.style.display = "block";
 
       form.reset();
+
+      kandidatBox.classList.add("hidden");
 
       setTimeout(function(){
 
