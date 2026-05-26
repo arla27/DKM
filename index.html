@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>E-Voting Ketua DKM</title>
+<title>E-VOTING KETUA DKM</title>
 
 <style>
 
@@ -164,6 +164,38 @@ button:disabled{
   font-weight:600;
 }
 
+.result-box{
+  margin-top:35px;
+  background:#f8fafc;
+  border-radius:18px;
+  padding:20px;
+  border:1px solid #e2e8f0;
+}
+
+.result-box h3{
+  text-align:center;
+  margin-bottom:20px;
+  color:#0f172a;
+  font-size:18px;
+}
+
+.result-item{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:14px 16px;
+  border-radius:12px;
+  margin-bottom:12px;
+  background:white;
+  border:1px solid #e2e8f0;
+  font-size:16px;
+}
+
+.result-item strong{
+  font-size:22px;
+  color:#16a34a;
+}
+
 .footer{
   text-align:center;
   font-size:13px;
@@ -210,7 +242,6 @@ button:disabled{
 
     <div class="logo">
 
-      <!-- GANTI LOGO -->
       <img
         src="dkm.jpg"
         alt="Logo DKM"
@@ -229,18 +260,28 @@ button:disabled{
   <div class="content">
 
     <div class="info-box">
-      Assalamu’alaikum <br>Warahmatullahi Wabarakatuh.<br><br>
+      Assalamu’alaikum <br>
+      Warahmatullahi Wabarakatuh.<br><br>
 
-      Terkait pencalonan Ketua DKM Nurul Huda periode 2026–2029, pengurus DKM Nurul Huda <br>secara aklamasi mencalonkan Bapak <strong>Riki Kurnia</strong> sebagai Ketua DKM Nurul Huda.<br><br>
+      Terkait pencalonan Ketua DKM Nurul Huda periode 2026–2029,
+      pengurus DKM Nurul Huda secara aklamasi mencalonkan
+      Bapak <strong>Riki Kurnia</strong>
+      sebagai Ketua DKM Nurul Huda.<br><br>
 
-      Pemilihan ini hanya untuk menentukan Ketua DKM Nurul Huda. Selanjutnya, ketua terpilih akan membentuk jajaran kepengurusan.<br><br>
+      Pemilihan ini hanya untuk menentukan Ketua DKM Nurul Huda.
+      Selanjutnya, ketua terpilih akan membentuk jajaran kepengurusan.<br><br>
 
-      Apabila terdapat kandidat lain atau ada yang ingin mengajukan diri sebagai Ketua DKM, silakan memilih opsi “TIDAK” dan mengisi nama kandidat yang diajukan.<br><br>
+      Apabila terdapat kandidat lain atau ada yang ingin mengajukan diri
+      sebagai Ketua DKM, silakan memilih opsi “TIDAK”
+      dan mengisi nama kandidat yang diajukan.<br><br>
 
-      Apabila terdapat kesalahan dalam penyampaian kata-kata, kami mohon maaf dan pengertiannya.<br><br>
+      Apabila terdapat kesalahan dalam penyampaian kata-kata,
+      kami mohon maaf dan pengertiannya.<br><br>
 
       Sekian, terima kasih atas perhatian dan partisipasinya.<br>
-      Wassalamu’alaikum <br>Warahmatullahi Wabarakatuh.
+
+      Wassalamu’alaikum <br>
+      Warahmatullahi Wabarakatuh.
     </div>
 
     <div class="success" id="successBox">
@@ -333,6 +374,26 @@ button:disabled{
 
     </form>
 
+
+    <!-- HASIL VOTING -->
+
+    <div class="result-box">
+
+      <h3>HASIL SEMENTARA VOTING</h3>
+
+      <div class="result-item">
+        <span>SETUJU</span>
+        <strong id="totalSetuju">0</strong>
+      </div>
+
+      <div class="result-item">
+        <span>TIDAK SETUJU</span>
+        <strong id="totalTidak">0</strong>
+      </div>
+
+    </div>
+
+
     <div class="footer">
       © 2026 DKM Musholla Nurul Huda Pondok Dewata Tigaraksa
     </div>
@@ -360,6 +421,51 @@ const ketuaInput =
 
 const pilihanRadio =
   document.querySelectorAll('input[name="pilihan"]');
+
+const totalSetuju =
+  document.getElementById("totalSetuju");
+
+const totalTidak =
+  document.getElementById("totalTidak");
+
+
+// =====================================
+// URL WEB APP GOOGLE APPS SCRIPT
+// =====================================
+
+const scriptURL =
+"https://script.google.com/macros/s/AKfycbxxYomDurNz9Z4z8yO1_KeHqghp0fziiCBnskjXaulyAtZnWUcmTN-GzOhz-zv3pUkf/exec";
+
+
+
+// ===========================
+// AMBIL HASIL VOTING
+// ===========================
+
+async function loadVotingResult(){
+
+  try{
+
+    const response =
+      await fetch(scriptURL + "?action=getResult");
+
+    const result =
+      await response.json();
+
+    totalSetuju.innerText =
+      result.setuju || 0;
+
+    totalTidak.innerText =
+      result.tidak || 0;
+
+  }catch(error){
+
+    console.log(error);
+
+  }
+
+}
+
 
 
 // ===========================
@@ -389,6 +495,7 @@ pilihanRadio.forEach(function(radio){
   });
 
 });
+
 
 
 // ===========================
@@ -453,13 +560,6 @@ form.addEventListener("submit", async function(e){
 
   btn.innerText = "Mengirim...";
 
-  // =====================================
-  // URL WEB APP GOOGLE APPS SCRIPT
-  // =====================================
-
-  const scriptURL =
-    "https://script.google.com/macros/s/AKfycbxzxd5FgBYRXQgtj5B0k55f6gEp8IhphuAx52ySLXCOIKSJiywIVoluERXuqfcVMuTe/exec";
-
   const data = {
 
     nama: nama,
@@ -503,6 +603,8 @@ form.addEventListener("submit", async function(e){
 
       kandidatBox.classList.add("hidden");
 
+      loadVotingResult();
+
       setTimeout(function(){
 
         successBox.style.display = "none";
@@ -528,6 +630,11 @@ form.addEventListener("submit", async function(e){
   btn.innerText = "KIRIM VOTING";
 
 });
+
+
+
+// LOAD HASIL AWAL
+loadVotingResult();
 
 </script>
 
